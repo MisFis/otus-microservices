@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment1
+  labels:
+    app: deployment1
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: deployment1
+      labels:
+        app: deployment1
+    spec:
+      containers:
+        - name: service1
+          image: misfis123/otus1:v1
+          imagePullPolicy: Always
+          readinessProbe:
+            httpGet:
+              port: 8000
+              path: /health
+            periodSeconds: 5
+            initialDelaySeconds: 2
+            timeoutSeconds: 2
+      restartPolicy: Always
+
+  selector:
+    matchLabels:
+      app: deployment1

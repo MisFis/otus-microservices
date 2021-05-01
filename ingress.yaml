@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress1
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$3
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /(/?)(/?)(.*) # Выглядит стремно, как то можно в rewrite-target выбирать группу динамический?
+            pathType: Prefix
+            backend:
+              service:
+                name: service1
+                port:
+                  number: 8000
+
+          - path: /otusapp/([A-z]*)(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: service1
+                port:
+                  number: 8000
